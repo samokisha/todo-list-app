@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoList.Models.Responses
 {
-    internal class ToDoDeleteResponseModel
+    public class ToDoDeleteResponseModel
     {
         public int Id { get; set; }
     }
