@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoList.Models.Responses
+namespace ToDoList.Models.Responses;
+
+public class ToDoDeleteResponseModel
 {
-    public class ToDoDeleteResponseModel
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

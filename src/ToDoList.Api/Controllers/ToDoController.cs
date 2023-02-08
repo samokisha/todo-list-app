@@ -2,34 +2,33 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
 
-namespace ToDoList.Api.Controllers
+namespace ToDoList.Api.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ToDoController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ToDoController : ControllerBase
+    [HttpPost("items")]
+    public IActionResult Post([FromBody] ToDoCreateRequestModel createRequestModel)
     {
-        [HttpPost("items")]
-        public IActionResult Post([FromBody] ToDoCreateRequestModel createRequestModel)
-        {
-            return (IActionResult)new ToDoItemResponseModel();
-        }
+        return Ok(new ToDoItemResponseModel());
+    }
 
-        [HttpGet("items")]
-        public IActionResult Get([FromQuery] ToDoReadRequestModel readRequestModel)
-        {
-            return (IActionResult)new ToDoItemResponseModel();
-        }
+    [HttpGet("items")]
+    public IActionResult Get([FromQuery] ToDoReadRequestModel readRequestModel)
+    {
+        return Ok(new ToDoItemResponseModel());
+    }
 
-        [HttpPut("items")]
-        public IActionResult Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
-        {
-            return (IActionResult)new ToDoItemResponseModel();
-        }
+    [HttpPut("items")]
+    public IActionResult Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
+    {
+        return Ok(new ToDoUpdateRequestModel());
+    }
 
-        [HttpDelete("items")]
-        public IActionResult Delete([FromBody] ToDoDeleteRequestModel deleteRequestModel)
-        {
-            return (IActionResult)new ToDoDeleteResponseModel();
-        }
+    [HttpDelete("items")]
+    public IActionResult Delete([FromBody] ToDoDeleteRequestModel deleteRequestModel)
+    {
+       return Ok(new ToDoDeleteResponseModel());
     }
 }
