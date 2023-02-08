@@ -23,7 +23,7 @@ public class ToDoController : ControllerBase
     [HttpPut("items")]
     public IActionResult Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
     {
-        return Ok(new ToDoUpdateRequestModel());
+        return Ok(new ToDoItemResponseModel());
     }
 
     [HttpDelete("items")]
