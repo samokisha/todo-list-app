@@ -1,3 +1,6 @@
+using MassTransit;
+using TodoService.Data.Entities;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, configurator) =>
+    {
+        configurator.Host("RabbitMQ");
+        configurator.ConfigureEndpoints(context);
+    });
+    x.AddRequestClient<ToDoItem>();
+});
 
 var app = builder.Build();
 
@@ -21,5 +34,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 
 app.Run();
