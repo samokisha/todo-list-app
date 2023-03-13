@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  todolist.api:
+    image: ${DOCKER_REGISTRY-}todolistapi
+    build:
+      context: .
+      dockerfile: src\ToDoList.Api\Dockerfile
+    ports:
+      - "5001:443"
+      - "5000:80"
+  todoservice:
+    image: ${DOCKER_REGISTRY-}todoservice
+    build:
+      context: .
+      dockerfile: src\ToDoService\Dockerfile
+    depends_on:
+      rabbitmq:
+       condition: service_healthy
+      sql-server:
+       condition: service_started
