@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
@@ -9,26 +10,30 @@ namespace ToDoList.Api.Controllers;
 public class ToDoController : ControllerBase
 {
     [HttpPost("items")]
-    public IActionResult Post([FromBody] ToDoCreateRequestModel createRequestModel)
+    public async Task<IActionResult> Post([FromBody] IRequestClient<ToDoCreateRequestModel> createRequestModel, CancellationToken cancellationToken)
     {
-        return Ok(new ToDoItemResponseModel());
+        var response = await createRequestModel.GetResponse<ToDoItemResponseModel>(new(), cancellationToken);
+        return Ok(response.Message);
     }
 
     [HttpGet("items")]
-    public IActionResult Get([FromQuery] ToDoReadRequestModel readRequestModel)
+    public async Task<IActionResult> Get([FromQuery] IRequestClient<ToDoReadRequestModel> readRequestModel, CancellationToken cancellationToken)
     {
-        return Ok(new ToDoItemResponseModel());
+        var response = await readRequestModel.GetResponse<ToDoItemResponseModel>(new(), cancellationToken);
+        return Ok(response.Message);
     }
 
     [HttpPut("items")]
-    public IActionResult Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
+    public async Task<IActionResult> Put([FromBody] IRequestClient<ToDoUpdateRequestModel> updateRequestModel, CancellationToken cancellationToken)
     {
-        return Ok(new ToDoItemResponseModel());
+        var response = await updateRequestModel.GetResponse<ToDoItemResponseModel>(new(), cancellationToken);
+        return Ok(response.Message);
     }
 
     [HttpDelete("items")]
-    public IActionResult Delete([FromBody] ToDoDeleteRequestModel deleteRequestModel)
+    public async Task<IActionResult> Delete([FromBody] IRequestClient<ToDoDeleteRequestModel> deleteRequestModel, CancellationToken cancellationToken)
     {
-       return Ok(new ToDoDeleteResponseModel());
+        var response = await deleteRequestModel.GetResponse<ToDoDeleteResponseModel>(new(), cancellationToken);
+        return Ok(response.Message);
     }
 }

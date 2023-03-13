@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.Api", "src\ToDoLis
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.Models", "src\ToDoList.Models\ToDoList.Models.csproj", "{9AB773F4-4A95-47B5-94B7-26A9FBABC63A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoService", "src\TodoService\ToDoService.csproj", "{791DE60B-D68B-4AA2-A141-02F8741EF766}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoService", "TodoService\TodoService.csproj", "{791DE60B-D68B-4AA2-A141-02F8741EF766}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BC9C6A59-E7BF-4128-A265-33C04FF34CD4}"
 EndProject

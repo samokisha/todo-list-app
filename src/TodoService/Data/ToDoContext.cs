@@ -19,6 +19,7 @@ public class ToDoContext : DbContext
 
         modelBuilder.Entity<ToDoItem>()
             .Property(b => b.Name)
+            .HasMaxLength(128)
             .IsRequired();
     }
 }

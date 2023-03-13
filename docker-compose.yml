@@ -1,22 +1,6 @@
 version: '3.4'
 
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmqdata:/var/lib/rabbitmq/mnesia
-  sql-server:
-    image: mcr.microsoft.com/mssql/server
-    environment:
-      SA_PASSWORD: "Todolist24app"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-    volumes:
-      - dbdata:/var/opt/mssql/data
   todolist.api:
     image: ${DOCKER_REGISTRY-}todolistapi
     build:
@@ -25,17 +9,13 @@ services:
     ports:
       - "5001:443"
       - "5000:80"
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      mssql:
-        condition: service_started
   todoservice:
     image: ${DOCKER_REGISTRY-}todoservice
     build:
       context: .
-      dockerfile: ToDoService\Dockerfile
+      dockerfile: src\ToDoService\Dockerfile
     depends_on:
-      todolist.api:
-        condition: service_started
-  
+      rabbitmq:
+       condition: service_healthy
+      sql-server:
+       condition: service_started

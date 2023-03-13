@@ -11,7 +11,6 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/ToDoList.Api/ToDoList.Api.csproj", "src/ToDoList.Api/"]
-COPY ["TodoService/TodoService.csproj", "TodoService/"]
 COPY ["src/ToDoList.Models/ToDoList.Models.csproj", "src/ToDoList.Models/"]
 RUN dotnet restore "src/ToDoList.Api/ToDoList.Api.csproj"
 COPY . .
