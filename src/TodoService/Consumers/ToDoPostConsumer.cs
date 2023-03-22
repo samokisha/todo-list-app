@@ -14,6 +14,10 @@ public class ToDoPostConsumer : IConsumer<ToDoCreateRequestModel>
 {
     public async Task Consume(ConsumeContext<ToDoCreateRequestModel> context)
     {
-        await context.RespondAsync<ToDoItemResponseModel>(new());
+        await context.RespondAsync<ToDoItemResponseModel>(new ToDoItemResponseModel()
+        {
+            Name = $"Name of task {context.Message.Name}",
+            Description = $"Description of task{context.Message.Description}"
+        });
     }
 }

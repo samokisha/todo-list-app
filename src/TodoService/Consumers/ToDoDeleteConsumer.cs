@@ -14,6 +14,9 @@ public class ToDoDeleteConsumer : IConsumer<ToDoDeleteRequestModel>
 {
     public async Task Consume(ConsumeContext<ToDoDeleteRequestModel> context)
     {
-        await context.RespondAsync<ToDoDeleteResponseModel>(new());
+        await context.RespondAsync<ToDoDeleteResponseModel>(new ToDoDeleteResponseModel()
+        {
+            Id = context.Message.Id
+        });
     }
 }

@@ -9,21 +9,14 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddDbContext<ToDoContext>(builder => builder.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<ToDoGetConsumer>()
-                .Endpoint(e => e.Name = "get-consumer");
-
-            x.AddConsumer<ToDoPostConsumer>()
-                .Endpoint(e => e.Name = "post-consumer");
-
-            x.AddConsumer<ToDoDeleteConsumer>()
-                .Endpoint(e => e.Name = "delete-consumer");
-
-            x.AddConsumer<ToDoPutConsumer>()
-                .Endpoint(e => e.Name = "update-consumer");
+            x.AddConsumer<ToDoGetConsumer>();
+            x.AddConsumer<ToDoPostConsumer>();
+            x.AddConsumer<ToDoDeleteConsumer>();
+            x.AddConsumer<ToDoPutConsumer>();
 
             x.UsingRabbitMq((context, configurator) =>
             {
-                configurator.Host("rabbitMQ");
+                configurator.Host("rabbitmq://localhost");
                 configurator.ConfigureEndpoints(context);
             });
         });

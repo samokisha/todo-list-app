@@ -15,21 +15,9 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, configurator) =>
     {
-        configurator.Host("rabbitMQ");
+        configurator.Host("rabbitmq://localhost");
         configurator.ConfigureEndpoints(context);
     });
-
-    x.AddRequestClient<ToDoCreateRequestModel>(
-        new Uri("exchange:post-consumer"));
-
-    x.AddRequestClient<ToDoReadRequestModel>(
-        new Uri("exchange:get-consumer"));
-
-    x.AddRequestClient<ToDoUpdateRequestModel>(
-        new Uri("exchange:put-consumer"));
-
-    x.AddRequestClient<ToDoDeleteRequestModel>(
-        new Uri("exchange:delete-consumer"));
 });
 
 var app = builder.Build();

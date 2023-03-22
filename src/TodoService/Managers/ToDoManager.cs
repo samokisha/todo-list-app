@@ -5,6 +5,7 @@ using TodoService.Data.Entities;
 using ToDoService.Managers;
 
 namespace TodoService.Managers;
+
 internal class ToDoManager
 {
     private readonly ToDoContext _toDoContext;

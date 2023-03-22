@@ -9,6 +9,7 @@ using TodoService;
 using TodoService.Data.Entities;
 
 namespace ToDoService.Managers;
+
 internal class SearchItemResult : ToDoItem
 {
 	public SearchItemResult()

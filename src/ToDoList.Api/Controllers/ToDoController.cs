@@ -1,5 +1,6 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Api.Controllers.Base;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
 
@@ -7,33 +8,37 @@ namespace ToDoList.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ToDoController : ControllerBase
+public class ToDoController : BaseController
 {
-    [HttpPost("items")]
-    public async Task<IActionResult> Post([FromBody] IRequestClient<ToDoCreateRequestModel> createRequestModel, CancellationToken cancellationToken)
+    public ToDoController(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        var response = await createRequestModel.GetResponse<ToDoItemResponseModel>(new(), cancellationToken);
-        return Ok(response.Message);
+    }
+
+    [HttpPost("items")]
+    public async Task<IActionResult> Post([FromBody] ToDoCreateRequestModel createRequestModel)
+    {
+        var result = await ResponseAsync<ToDoCreateRequestModel, ToDoItemResponseModel>(createRequestModel);
+        return Ok(result);
     }
 
     [HttpGet("items")]
-    public async Task<IActionResult> Get([FromQuery] IRequestClient<ToDoReadRequestModel> readRequestModel, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get([FromQuery] ToDoReadRequestModel readRequestModel)
     {
-        var response = await readRequestModel.GetResponse<ToDoItemResponseModel>(new(), cancellationToken);
-        return Ok(response.Message);
+        var result = await ResponseAsync<ToDoReadRequestModel,ToDoItemResponseModel>(readRequestModel);
+        return Ok(result);
     }
 
     [HttpPut("items")]
-    public async Task<IActionResult> Put([FromBody] IRequestClient<ToDoUpdateRequestModel> updateRequestModel, CancellationToken cancellationToken)
+    public async Task<IActionResult> Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
     {
-        var response = await updateRequestModel.GetResponse<ToDoItemResponseModel>(new(), cancellationToken);
-        return Ok(response.Message);
+        var result = await ResponseAsync<ToDoUpdateRequestModel,ToDoItemResponseModel>(updateRequestModel);
+        return Ok(result);
     }
 
     [HttpDelete("items")]
-    public async Task<IActionResult> Delete([FromBody] IRequestClient<ToDoDeleteRequestModel> deleteRequestModel, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromBody] ToDoDeleteRequestModel deleteRequestModel)
     {
-        var response = await deleteRequestModel.GetResponse<ToDoDeleteResponseModel>(new(), cancellationToken);
-        return Ok(response.Message);
+        var result = await ResponseAsync<ToDoDeleteRequestModel,ToDoDeleteResponseModel>(deleteRequestModel);
+        return Ok(result);
     }
 }
