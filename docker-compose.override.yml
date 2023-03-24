@@ -9,11 +9,17 @@ services:
       - "5001:443"
       - "5000:80"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:ro
-      - ${APPDATA}/ASP.NET/Https:C:\Users\ContainerUser\AppData\Roaming\ASP.NET\Https:ro
+      - C:\Users\ContainerUser\AppData\Roaming\Microsoft\UserSecrets:/appdata/Microsoft/UserSecrets
+      - C:\Users\ContainerUser\AppData\Roaming\ASP.NET\Https:/appdata/ASP.NET/Https
+
   
   rabbitmq:
     image: rabbitmq:3-management
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     ports:
       - "5672:5672"
       - "15672:15672"

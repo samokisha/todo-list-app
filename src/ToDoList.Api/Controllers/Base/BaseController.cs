@@ -19,7 +19,6 @@ public class BaseController : ControllerBase
         var requestClient = _bus.CreateRequestClient<TRequest>();
         var result = await requestClient.GetResponse<TResponse>(request, HttpContext.RequestAborted);
 
-
         return result.Message;
     }
 
