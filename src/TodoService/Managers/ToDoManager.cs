@@ -36,8 +36,9 @@ public class ToDoManager
 
     public async Task<ToDoItemResponseModel?> GetAsync(ToDoReadRequestModel readRequestModel, CancellationToken cancellationToken)
     {
-        var searchItemResult = await _toDoContext.Set<ToDoItem>().FindAsync(readRequestModel.Id);
-        if (searchItemResult != null)
+        var searchItemResult = await _toDoContext.TodoItem.Where(x => x.Id == readRequestModel.Id).SingleOrDefaultAsync(cancellationToken);
+
+        if (searchItemResult is null)
         {
             return new SearchRequestResult
             {
