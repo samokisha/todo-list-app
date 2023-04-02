@@ -7,7 +7,7 @@ public class ToDoContext : DbContext
 {
     public ToDoContext(DbContextOptions<ToDoContext> options) : base(options)
     {
-
+        Database.Migrate();
     }
     public DbSet<ToDoItem> TodoItem { get; set; }
 
@@ -15,7 +15,7 @@ public class ToDoContext : DbContext
     {
         modelBuilder.Entity<ToDoItem>()
             .HasKey(b => b.Id);
-            
+
 
         modelBuilder.Entity<ToDoItem>()
             .Property(b => b.Name)

@@ -14,7 +14,7 @@ COPY ["src/ToDoList.Api/ToDoList.Api.csproj", "src/ToDoList.Api/"]
 COPY ["src/ToDoList.Models/ToDoList.Models.csproj", "src/ToDoList.Models/"]
 RUN dotnet restore "src/ToDoList.Api/ToDoList.Api.csproj"
 COPY . .
-WORKDIR "/src/src/ToDoList.Api"
+WORKDIR "/src/ToDoList.Api"
 RUN dotnet build "ToDoList.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish

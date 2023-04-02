@@ -6,10 +6,10 @@ using ToDoService.Managers;
 
 namespace TodoService.Managers;
 
-internal class ToDoManager
+public class ToDoManager
 {
     private readonly ToDoContext _toDoContext;
-    private ToDoItem ? _searchItemResult;
+
     public ToDoManager(ToDoContext toDoContext)
     {
         _toDoContext = toDoContext;
@@ -17,42 +17,81 @@ internal class ToDoManager
 
     public async Task<ToDoItemResponseModel> PostAsync(ToDoCreateRequestModel createRequestModel, CancellationToken cancellationToken)
     {
-        await _toDoContext.AddAsync(createRequestModel,cancellationToken);
+        ToDoItem newToDoItem = new ToDoItem()
+        {
+            Name = createRequestModel.Name,
+            Description = createRequestModel.Description,
+            IsDone = createRequestModel.IsDone
+        };
+        await _toDoContext.TodoItem.AddAsync(newToDoItem, cancellationToken);
         await _toDoContext.SaveChangesAsync(cancellationToken);
-        return new ToDoItemResponseModel();
+        return new ToDoItemResponseModel()
+        {
+            Id = newToDoItem.Id,
+            Name = newToDoItem.Name,
+            Description = newToDoItem.Description,
+            IsDone = newToDoItem.IsDone
+        };
     }
 
     public async Task<ToDoItemResponseModel?> GetAsync(ToDoReadRequestModel readRequestModel, CancellationToken cancellationToken)
     {
-        _searchItemResult = await _toDoContext.TodoItem.Where(x => x.Id == readRequestModel.Id).SingleOrDefaultAsync(cancellationToken);
-
-        if (_searchItemResult is null)
+        var searchItemResult = await _toDoContext.Set<ToDoItem>().FindAsync(readRequestModel.Id);
+        if (searchItemResult != null)
         {
-            return null;
+            return new SearchRequestResult
+            {
+                Id = searchItemResult.Id,
+                Name = searchItemResult.Name,
+                Description = searchItemResult.Description,
+                IsDone = searchItemResult.IsDone
+            };
         }
         else
         {
-            return new ToDoItemResponseModel
+            return new SearchRequestResult()
             {
-                Id = _searchItemResult.Id,
-                Name = _searchItemResult.Name,
-                Description = _searchItemResult.Description,
-                IsDone = _searchItemResult.IsDone
+                ResponseModel = null
             };
         }
     }
 
-    public async Task<ToDoItemResponseModel> PutAsync(ToDoUpdateRequestModel updateRequestModel, CancellationToken cancellationToken)
+    public async Task<ToDoItemResponseModel?> PutAsync(ToDoUpdateRequestModel updateRequestModel, CancellationToken cancellationToken)
     {
-        _toDoContext.Update<ToDoUpdateRequestModel>(updateRequestModel);
-        await _toDoContext.SaveChangesAsync(cancellationToken);
-        return new ToDoItemResponseModel();
+        var updateItemResult = await _toDoContext.Set<ToDoItem>().FindAsync(updateRequestModel.Id);
+        if (updateItemResult != null)
+        {
+            _toDoContext.Entry(updateItemResult).CurrentValues.SetValues(updateRequestModel);
+            await _toDoContext.SaveChangesAsync(cancellationToken);
+            return new ToDoItemResponseModel
+            {
+                Id = updateRequestModel.Id,
+                Name = updateRequestModel.Name,
+                Description = updateRequestModel.Description,
+                IsDone = updateRequestModel.IsDone
+            };
+        }
+        else
+        {
+            return new SearchRequestResult()
+            {
+                ResponseModel = null
+            };
+        }
     }
 
-    public async Task<ToDoDeleteResponseModel> DeleteAsync(ToDoDeleteRequestModel deleteRequestModel, CancellationToken cancellationToken)
+    public async Task<ToDoDeleteResponseModel?> DeleteAsync(ToDoDeleteRequestModel deleteRequestModel, CancellationToken cancellationToken)
     {
-        _toDoContext.Remove<ToDoDeleteRequestModel>(deleteRequestModel);
-        await _toDoContext.SaveChangesAsync(cancellationToken);
-        return new ToDoDeleteResponseModel();
+        var deleteItemResult = await _toDoContext.TodoItem.Where(x => x.Id == deleteRequestModel.Id).SingleOrDefaultAsync(cancellationToken);
+        if (deleteItemResult != null)
+        {
+            _toDoContext.Remove(deleteItemResult);
+            await _toDoContext.SaveChangesAsync(cancellationToken);
+            return new ToDoDeleteResponseModel()
+            {
+                Id = deleteItemResult.Id
+            };
+        }
+        return null;
     }
 }

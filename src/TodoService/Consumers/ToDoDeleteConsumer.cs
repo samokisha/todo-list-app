@@ -1,22 +1,23 @@
 ﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
-using TodoService.Data.Entities;
+using TodoService.Managers;
 
 namespace TodoService.Consumers;
 
 public class ToDoDeleteConsumer : IConsumer<ToDoDeleteRequestModel>
 {
+    private readonly ToDoManager _toDoManager;
+    public ToDoDeleteConsumer(ToDoManager toDoManager)
+    {
+        _toDoManager = toDoManager;
+    }
     public async Task Consume(ConsumeContext<ToDoDeleteRequestModel> context)
     {
-        await context.RespondAsync<ToDoDeleteResponseModel>(new ToDoDeleteResponseModel()
+        var result = await _toDoManager.DeleteAsync(context.Message, context.CancellationToken);
+        await context.RespondAsync<ToDoDeleteResponseModel>(new ToDoDeleteResponseModel
         {
-            Id = context.Message.Id
+            Id = result.Id
         });
     }
 }

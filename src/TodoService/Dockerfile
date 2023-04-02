@@ -5,11 +5,11 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/TodoService/ToDoService.csproj", "src/TodoService/"]
+COPY ["src/ToDoService/ToDoService.csproj", "src/ToDoService/"]
 COPY ["src/ToDoList.Models/ToDoList.Models.csproj", "src/ToDoList.Models/"]
 RUN dotnet restore "src/TodoService/ToDoService.csproj"
 COPY . .
-WORKDIR "/src/TodoService"
+WORKDIR "/src/ToDoService"
 RUN dotnet build "ToDoService.csproj" -c Release -o /app/build
 
 FROM build AS publish

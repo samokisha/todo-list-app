@@ -1,24 +1,28 @@
 ﻿using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
-using TodoService.Data.Entities;
+using TodoService.Managers;
 
 namespace TodoService.Consumers;
 
 public class ToDoPutConsumer : IConsumer<ToDoUpdateRequestModel>
 {
+    private readonly ToDoManager _toDoManager;
+    public ToDoPutConsumer(ToDoManager toDoManager)
+    {
+        _toDoManager = toDoManager;
+    }
+
     public async Task Consume(ConsumeContext<ToDoUpdateRequestModel> context)
     {
-        await context.RespondAsync<ToDoItemResponseModel>(new ToDoItemResponseModel()
+        var result = await _toDoManager.PutAsync(context.Message, context.CancellationToken);
+        await context.RespondAsync(new ToDoItemResponseModel
         {
-            Name = $"Name of task {context.Message.Name}",
-            Description = $"Description of task {context.Message.Description}"
+            Id = result.Id,
+            Name = result.Name,
+            Description = result.Description,
+            IsDone = result.IsDone
         });
+
     }
 }

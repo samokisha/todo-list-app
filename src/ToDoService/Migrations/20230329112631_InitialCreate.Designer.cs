@@ -8,10 +8,10 @@ using TodoService;
 
 #nullable disable
 
-namespace TodoService.Migrations
+namespace ToDoService.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    [Migration("20230227180301_InitialCreate")]
+    [Migration("20230329112631_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,7 +33,6 @@ namespace TodoService.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDone")
@@ -41,7 +40,8 @@ namespace TodoService.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.HasKey("Id");
 

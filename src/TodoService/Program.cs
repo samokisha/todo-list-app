@@ -2,11 +2,14 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using TodoService;
 using TodoService.Consumers;
+using TodoService.Managers;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
-        services.AddDbContext<ToDoContext>(builder => builder.UseSqlServer(hostContext.Configuration.GetConnectionString("DefaultConnection")));
+        var connectionString = Environment.GetEnvironmentVariable("DefaultConnection");
+        services.AddDbContext<ToDoContext>(builder => builder.UseSqlServer((connectionString)));
+        services.AddScoped<ToDoManager>();
         services.AddMassTransit(x =>
         {
             x.AddConsumer<ToDoGetConsumer>();
@@ -16,7 +19,7 @@ IHost host = Host.CreateDefaultBuilder(args)
 
             x.UsingRabbitMq((context, configurator) =>
             {
-                configurator.Host("rabbitmq://localhost");
+                configurator.Host("rabbitmq://rabbitmq");
                 configurator.ConfigureEndpoints(context);
             });
         });

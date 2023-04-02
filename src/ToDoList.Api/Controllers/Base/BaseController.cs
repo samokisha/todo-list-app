@@ -12,20 +12,19 @@ public class BaseController : ControllerBase
         _bus = serviceProvider.GetRequiredService<IBus>();
     }
 
-    protected async Task<TResponse> ResponseAsync<TRequest,TResponse>(TRequest request)
+    protected async Task<TResponse> ResponseAsync<TRequest, TResponse>(TRequest request)
         where TRequest : class
         where TResponse : class
     {
         var requestClient = _bus.CreateRequestClient<TRequest>();
         var result = await requestClient.GetResponse<TResponse>(request, HttpContext.RequestAborted);
 
-
         return result.Message;
     }
 
-    protected async Task PublishAsync<TRequest>(TRequest reqiest)
+    protected async Task PublishAsync<TRequest>(TRequest request)
         where TRequest : class
     {
-        await _bus.Publish(reqiest, HttpContext.RequestAborted);
+        await _bus.Publish(request, HttpContext.RequestAborted);
     }
 }
