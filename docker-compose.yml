@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: src\ToDoList.Api\Dockerfile
     
-  todoservice:
-    image: ${DOCKER_REGISTRY-}todoservice
+  todolist.service:
+    image: ${DOCKER_REGISTRY-}todolist.service
     build:
       context: .
       dockerfile: src\ToDoService\Dockerfile

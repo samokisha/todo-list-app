@@ -15,7 +15,6 @@
 	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
   </ItemGroup>
   <ItemGroup>
-	  <ProjectReference Include="..\TodoService\TodoService.csproj" />
 	  <ProjectReference Include="..\ToDoList.Models\ToDoList.Models.csproj" />
   </ItemGroup>
 </Project>

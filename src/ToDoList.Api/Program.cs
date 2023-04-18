@@ -10,7 +10,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMassTransit(x =>
 {
-
     x.UsingRabbitMq((context, configurator) =>
     {
         configurator.Host("rabbitmq://rabbitmq");

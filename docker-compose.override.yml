@@ -12,7 +12,7 @@ services:
       - C:\Users\Eugene\AppData\Roaming\Microsoft\UserSecrets:/appdata/Microsoft/UserSecrets
       - C:\Users\Eugene\AppData\Roaming\ASP.NET\Https:/appdata/ASP.NET/Https
 
-  todoservice:
+  todolist.service:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -21,7 +21,7 @@ services:
       sql-server:
        condition: service_started
     environment:
-      DefaultConnection: "Server=sql-server;Database=ToDoList;User Id=sa; Password=Todolist24app;TrustServerCertificate=True"
+      DEFAULT_CONNECTION: "Server=sql-server;Database=ToDoList;User Id=sa; Password=Todolist24app;TrustServerCertificate=True"
 
   rabbitmq:
     image: rabbitmq:3-management

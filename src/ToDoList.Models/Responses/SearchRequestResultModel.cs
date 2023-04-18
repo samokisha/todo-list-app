@@ -2,7 +2,7 @@
 
 namespace ToDoService.Managers;
 
-internal class SearchRequestResult : ToDoItemResponseModel
+public class SearchRequestResultModel
 {
     public ToDoItemResponseModel? ResponseModel { get; set; }
 }

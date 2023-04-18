@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TodoService.Data.Entities;
 
 namespace TodoService;
@@ -9,13 +8,13 @@ public class ToDoContext : DbContext
     {
         Database.Migrate();
     }
+
     public DbSet<ToDoItem> TodoItem { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ToDoItem>()
             .HasKey(b => b.Id);
-
 
         modelBuilder.Entity<ToDoItem>()
             .Property(b => b.Name)

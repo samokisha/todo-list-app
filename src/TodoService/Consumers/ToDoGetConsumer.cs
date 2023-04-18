@@ -1,26 +1,28 @@
 ﻿using MassTransit;
 using ToDoList.Models.Requests;
-using ToDoList.Models.Responses;
 using TodoService.Managers;
+using ToDoService.Managers;
 
 namespace TodoService.Consumers;
 
 public class ToDoGetConsumer : IConsumer<ToDoReadRequestModel>
 {
     private readonly ToDoManager _toDoManager;
+
     public ToDoGetConsumer(ToDoManager toDoManager)
     {
         _toDoManager = toDoManager;
     }
+
     public async Task Consume(ConsumeContext<ToDoReadRequestModel> context)
     {
-        var result = await _toDoManager.GetAsync(context.Message, context.CancellationToken);
-        await context.RespondAsync<ToDoItemResponseModel>(new ToDoItemResponseModel
+        var result = await _toDoManager.Read(context.Message, context.CancellationToken);
+
+        var searchRequestResultModel = new SearchRequestResultModel()
         {
-            Id = result.Id,
-            Name = result.Name,
-            Description = result.Description,
-            IsDone = result.IsDone
-        });
+            ResponseModel = result.ResponseModel
+        };
+
+        await context.RespondAsync<SearchRequestResultModel>(searchRequestResultModel);
     }
 }
