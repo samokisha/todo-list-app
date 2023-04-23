@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using ToDoList.Api.Controllers.Base;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
-using ToDoService.Managers;
 
 namespace ToDoList.Api.Controllers;
 
@@ -34,13 +33,13 @@ public class ToDoController : BaseController
     {
         var response = await ResponseAsync<ToDoReadRequestModel, SearchRequestResultModel>(readRequestModel);
 
-        if (response.ResponseModel != null)
+        if (response.ResponseModel != null && response.ResponseModel.Id != 0)
         {
             return Ok(response.ResponseModel);
         }
         else
         {
-            return NotFound(response.ResponseModel);
+            return NotFound(response);
         }
     }
 
@@ -49,13 +48,13 @@ public class ToDoController : BaseController
     {
         var response = await ResponseAsync<ToDoUpdateRequestModel, SearchRequestResultModel>(updateRequestModel);
 
-        if (response.ResponseModel != null)
+        if (response.ResponseModel != null && response.ResponseModel.Id != 0)
         {
             return Ok(response.ResponseModel);
         }
         else
         {
-            return NotFound(response.ResponseModel);
+            return NotFound(response);
         }
     }
 
@@ -64,7 +63,7 @@ public class ToDoController : BaseController
     {
         var response = await ResponseAsync<ToDoDeleteRequestModel, ToDoDeleteResponseModel>(deleteRequestModel);
 
-        if (response != null)
+        if (response.Id != 0)
         {
             return Ok(response);
         }

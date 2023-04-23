@@ -1,6 +1,4 @@
-﻿using ToDoList.Models.Responses;
-
-namespace ToDoService.Managers;
+﻿namespace ToDoList.Models.Responses;
 
 public class SearchRequestResultModel
 {

@@ -2,7 +2,6 @@
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
 using TodoService.Data.Entities;
-using ToDoService.Managers;
 
 namespace TodoService.Managers;
 
@@ -37,7 +36,7 @@ public class ToDoManager
         };
     }
 
-    public async Task<SearchRequestResultModel> Read(ToDoReadRequestModel readRequestModel, CancellationToken cancellationToken)
+    public async Task<ToDoItemResponseModel> Read(ToDoReadRequestModel readRequestModel, CancellationToken cancellationToken)
     {
         var searchItemResult = await _toDoContext.TodoItem.Where(x => x.Id == readRequestModel.Id).SingleOrDefaultAsync(cancellationToken);
 
@@ -56,15 +55,15 @@ public class ToDoManager
                 ResponseModel = toDoItemResponseModel
             };
 
-            return searchRequestResultModel;
+            return toDoItemResponseModel;
         }
         else
         {
-            return new SearchRequestResultModel();
+            return new ToDoItemResponseModel();
         }
     }
 
-    public async Task<SearchRequestResultModel> Update(ToDoUpdateRequestModel updateRequestModel, CancellationToken cancellationToken)
+    public async Task<ToDoItemResponseModel> Update(ToDoUpdateRequestModel updateRequestModel, CancellationToken cancellationToken)
     {
         var updateItemResult = await _toDoContext.TodoItem.Where(x => x.Id == updateRequestModel.Id).SingleOrDefaultAsync(cancellationToken);
 
@@ -87,15 +86,13 @@ public class ToDoManager
                 ResponseModel = toDoItemResponseModel
             };
 
-            _toDoContext.Update(updateItemResult);
-
             await _toDoContext.SaveChangesAsync(cancellationToken);
 
-            return searchRequestResultModel;
+            return toDoItemResponseModel;
         }
         else
         {
-            return new SearchRequestResultModel();
+            return new ToDoItemResponseModel();
         }
     }
 

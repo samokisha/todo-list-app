@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using ToDoList.Models.Requests;
+using ToDoList.Models.Responses;
 using TodoService.Managers;
-using ToDoService.Managers;
 
 namespace TodoService.Consumers;
 
@@ -20,7 +20,7 @@ public class ToDoPutConsumer : IConsumer<ToDoUpdateRequestModel>
 
         await context.RespondAsync(new SearchRequestResultModel()
         {
-            ResponseModel = result.ResponseModel
+            ResponseModel = result
         });
     }
 }

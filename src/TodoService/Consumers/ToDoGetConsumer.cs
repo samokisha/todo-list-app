@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using ToDoList.Models.Requests;
+using ToDoList.Models.Responses;
 using TodoService.Managers;
-using ToDoService.Managers;
 
 namespace TodoService.Consumers;
 
@@ -20,7 +20,7 @@ public class ToDoGetConsumer : IConsumer<ToDoReadRequestModel>
 
         var searchRequestResultModel = new SearchRequestResultModel()
         {
-            ResponseModel = result.ResponseModel
+            ResponseModel = result
         };
 
         await context.RespondAsync<SearchRequestResultModel>(searchRequestResultModel);
