@@ -18,16 +18,6 @@ public class ToDoDeleteConsumer : IConsumer<ToDoDeleteRequestModel>
     {
         var result = await _toDoManager.Delete(context.Message, context.CancellationToken);
 
-        if (result.Id != 0)
-        {
-            await context.RespondAsync<ToDoDeleteResponseModel>(new ToDoDeleteResponseModel
-            {
-                Id = result.Id
-            });
-        }
-        else
-        {
-            await context.RespondAsync<ToDoDeleteResponseModel>(new ToDoDeleteResponseModel());
-        }
+        await context.RespondAsync<ToDoDeleteResponseModel>(result);
     }
 }

@@ -24,7 +24,7 @@ public class ToDoController : BaseController
         }
         else
         {
-            return NotFound(response);
+            return NotFound();
         }
     }
 
@@ -33,13 +33,13 @@ public class ToDoController : BaseController
     {
         var response = await ResponseAsync<ToDoReadRequestModel, SearchRequestResultModel>(readRequestModel);
 
-        if (response.ResponseModel != null && response.ResponseModel.Id != 0)
+        if (response.ResponseModel != null)
         {
             return Ok(response.ResponseModel);
         }
         else
         {
-            return NotFound(response);
+            return NotFound();
         }
     }
 
@@ -48,13 +48,13 @@ public class ToDoController : BaseController
     {
         var response = await ResponseAsync<ToDoUpdateRequestModel, SearchRequestResultModel>(updateRequestModel);
 
-        if (response.ResponseModel != null && response.ResponseModel.Id != 0)
+        if (response.ResponseModel != null)
         {
             return Ok(response.ResponseModel);
         }
         else
         {
-            return NotFound(response);
+            return NotFound();
         }
     }
 
@@ -63,13 +63,13 @@ public class ToDoController : BaseController
     {
         var response = await ResponseAsync<ToDoDeleteRequestModel, ToDoDeleteResponseModel>(deleteRequestModel);
 
-        if (response.Id != 0)
+        if (response.Id != null)
         {
             return Ok(response);
         }
         else
         {
-            return NotFound(response);
+            return NotFound();
         }
     }
 }

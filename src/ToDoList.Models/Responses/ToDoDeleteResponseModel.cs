@@ -2,5 +2,5 @@
 
 public class ToDoDeleteResponseModel
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 }
