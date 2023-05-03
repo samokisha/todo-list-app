@@ -16,7 +16,7 @@ public class ToDoPutConsumer : IConsumer<ToDoUpdateRequestModel>
 
     public async Task Consume(ConsumeContext<ToDoUpdateRequestModel> context)
     {
-        var result = await _toDoManager.Update(context.Message, context.CancellationToken);
+        var result = await _toDoManager.UpdateAsync(context.Message, context.CancellationToken);
 
         await context.RespondAsync(new SearchRequestResultModel()
         {

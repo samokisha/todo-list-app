@@ -16,14 +16,8 @@ public class ToDoPostConsumer : IConsumer<ToDoCreateRequestModel>
 
     public async Task Consume(ConsumeContext<ToDoCreateRequestModel> context)
     {
-        var result = await _toDoManager.Create(context.Message, context.CancellationToken);
+        var result = await _toDoManager.CreateAsync(context.Message, context.CancellationToken);
 
-        await context.RespondAsync(new ToDoItemResponseModel
-        {
-            Id = result.Id,
-            Name = result.Name,
-            Description = result.Description,
-            IsDone = result.IsDone
-        });
+        await context.RespondAsync(result);
     }
 }

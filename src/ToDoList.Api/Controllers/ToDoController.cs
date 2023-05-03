@@ -14,22 +14,15 @@ public class ToDoController : BaseController
     }
 
     [HttpPost("items")]
-    public async Task<IActionResult> Post([FromBody] ToDoCreateRequestModel createRequestModel)
+    public async Task<IActionResult> PostAsync([FromBody] ToDoCreateRequestModel createRequestModel)
     {
         var response = await ResponseAsync<ToDoCreateRequestModel, ToDoItemResponseModel>(createRequestModel);
 
-        if (response != null)
-        {
-            return Ok(response);
-        }
-        else
-        {
-            return NotFound();
-        }
+        return Ok(response);
     }
 
     [HttpGet("items")]
-    public async Task<IActionResult> Get([FromQuery] ToDoReadRequestModel readRequestModel)
+    public async Task<IActionResult> GetAsync([FromQuery] ToDoReadRequestModel readRequestModel)
     {
         var response = await ResponseAsync<ToDoReadRequestModel, SearchRequestResultModel>(readRequestModel);
 
@@ -44,7 +37,7 @@ public class ToDoController : BaseController
     }
 
     [HttpPut("items")]
-    public async Task<IActionResult> Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
+    public async Task<IActionResult> PutAsync([FromBody] ToDoUpdateRequestModel updateRequestModel)
     {
         var response = await ResponseAsync<ToDoUpdateRequestModel, SearchRequestResultModel>(updateRequestModel);
 
@@ -59,13 +52,13 @@ public class ToDoController : BaseController
     }
 
     [HttpDelete("items")]
-    public async Task<IActionResult> Delete([FromBody] ToDoDeleteRequestModel deleteRequestModel)
+    public async Task<IActionResult> DeleteAsync([FromBody] ToDoDeleteRequestModel deleteRequestModel)
     {
         var response = await ResponseAsync<ToDoDeleteRequestModel, ToDoDeleteResponseModel>(deleteRequestModel);
 
         if (response.Id != null)
         {
-            return Ok(response);
+            return Ok();
         }
         else
         {

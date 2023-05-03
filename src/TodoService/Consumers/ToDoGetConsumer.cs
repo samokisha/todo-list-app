@@ -16,7 +16,7 @@ public class ToDoGetConsumer : IConsumer<ToDoReadRequestModel>
 
     public async Task Consume(ConsumeContext<ToDoReadRequestModel> context)
     {
-        var result = await _toDoManager.Read(context.Message, context.CancellationToken);
+        var result = await _toDoManager.ReadAsync(context.Message, context.CancellationToken);
 
         var searchRequestResultModel = new SearchRequestResultModel()
         {
