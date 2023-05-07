@@ -54,10 +54,8 @@ public class ToDoManager
 
             return toDoItemResponseModel;
         }
-        else
-        {
-            return toDoItemResponseModel;
-        }
+
+        return toDoItemResponseModel;
     }
 
     public async Task<ToDoItemResponseModel?> UpdateAsync(ToDoUpdateRequestModel updateRequestModel, CancellationToken cancellationToken)
