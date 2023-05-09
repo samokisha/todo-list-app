@@ -51,8 +51,6 @@ public class ToDoManager
                 Description = searchItemResult.Description,
                 IsDone = searchItemResult.IsDone
             };
-
-            return toDoItemResponseModel;
         }
 
         return toDoItemResponseModel;
