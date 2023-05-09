@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ToDoList.Api.Controllers.Base;
 using ToDoList.Models.Requests;
 using ToDoList.Models.Responses;
 
@@ -6,29 +7,62 @@ namespace ToDoList.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ToDoController : ControllerBase
+public class ToDoController : BaseController
 {
-    [HttpPost("items")]
-    public IActionResult Post([FromBody] ToDoCreateRequestModel createRequestModel)
+    public ToDoController(IServiceProvider serviceProvider) : base(serviceProvider)
     {
-        return Ok(new ToDoItemResponseModel());
+    }
+
+    [HttpPost("items")]
+    public async Task<IActionResult> PostAsync([FromBody] ToDoCreateRequestModel createRequestModel)
+    {
+        var response = await ResponseAsync<ToDoCreateRequestModel, ToDoItemResponseModel>(createRequestModel);
+
+        return Ok(response);
     }
 
     [HttpGet("items")]
-    public IActionResult Get([FromQuery] ToDoReadRequestModel readRequestModel)
+    public async Task<IActionResult> GetAsync([FromQuery] ToDoReadRequestModel readRequestModel)
     {
-        return Ok(new ToDoItemResponseModel());
+        var response = await ResponseAsync<ToDoReadRequestModel, SearchRequestResultModel>(readRequestModel);
+
+        if (response.ResponseModel != null)
+        {
+            return Ok(response.ResponseModel);
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 
     [HttpPut("items")]
-    public IActionResult Put([FromBody] ToDoUpdateRequestModel updateRequestModel)
+    public async Task<IActionResult> PutAsync([FromBody] ToDoUpdateRequestModel updateRequestModel)
     {
-        return Ok(new ToDoItemResponseModel());
+        var response = await ResponseAsync<ToDoUpdateRequestModel, SearchRequestResultModel>(updateRequestModel);
+
+        if (response.ResponseModel != null)
+        {
+            return Ok(response.ResponseModel);
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 
     [HttpDelete("items")]
-    public IActionResult Delete([FromBody] ToDoDeleteRequestModel deleteRequestModel)
+    public async Task<IActionResult> DeleteAsync([FromBody] ToDoDeleteRequestModel deleteRequestModel)
     {
-       return Ok(new ToDoDeleteResponseModel());
+        var response = await ResponseAsync<ToDoDeleteRequestModel, ToDoDeleteResponseModel>(deleteRequestModel);
+
+        if (response.Id != null)
+        {
+            return Ok();
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 }
