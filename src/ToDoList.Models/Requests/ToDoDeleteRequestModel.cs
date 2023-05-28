@@ -11,7 +11,7 @@ public class ToDoDeleteRequestModel : IValidatableObject
     {
         if (Id <= 0)
         {
-            yield return new ValidationResult("Field Id must be greater than 0");
+            yield return new ValidationResult("Must be greater than 0", new[] { nameof(Id) });
         }
     }
 }

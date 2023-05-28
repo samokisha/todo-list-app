@@ -7,6 +7,7 @@ public class ToDoUpdateRequestModel : IValidatableObject
     [Required]
     public int? Id { get; set; }
 
+    [Required]
     [StringLength(128)]
     public string Name { get; set; }
 
@@ -19,15 +20,7 @@ public class ToDoUpdateRequestModel : IValidatableObject
     {
         if (Id <= 0)
         {
-            yield return new ValidationResult("Field Id must be greater than 0");
-        }
-        else if (string.IsNullOrWhiteSpace(Name))
-        {
-            yield return new ValidationResult("Field Name is null or empty");
-        }
-        else if (IsDone == null)
-        {
-            yield return new ValidationResult("Field IsDone must have a value (true or false) and cannot be empty or null");
+            yield return new ValidationResult("Field Id must be greater than 0", new[] { nameof(Id) });
         }
     }
 }
