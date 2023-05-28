@@ -20,7 +20,7 @@ public class ToDoManager
         {
             Name = createRequestModel.Name,
             Description = createRequestModel.Description,
-            IsDone = createRequestModel.IsDone
+            IsDone = (bool)createRequestModel.IsDone
         };
 
         await _toDoContext.TodoItem.AddAsync(newToDoItem, cancellationToken);
@@ -66,16 +66,16 @@ public class ToDoManager
         {
             updateItemResult.Name = updateRequestModel.Name;
             updateItemResult.Description = updateRequestModel.Description;
-            updateItemResult.IsDone = updateRequestModel.IsDone;
+            updateItemResult.IsDone = (bool)updateRequestModel.IsDone;
 
             await _toDoContext.SaveChangesAsync(cancellationToken);
 
             toDoItemResponseModel = new ToDoItemResponseModel
             {
-                Id = updateRequestModel.Id,
+                Id = (int)updateRequestModel.Id,
                 Name = updateRequestModel.Name,
                 Description = updateRequestModel.Description,
-                IsDone = updateRequestModel.IsDone
+                IsDone = (bool)updateRequestModel.IsDone
             };
         }
 

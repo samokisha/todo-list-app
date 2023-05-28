@@ -1,6 +1,17 @@
-﻿namespace ToDoList.Models.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class ToDoDeleteRequestModel
+namespace ToDoList.Models.Requests;
+
+public class ToDoDeleteRequestModel : IValidatableObject
 {
-    public int Id { get; set; }
+    [Required]
+    public int? Id { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (Id <= 0)
+        {
+            yield return new ValidationResult("Field Id must be greater than 0");
+        }
+    }
 }
