@@ -22,9 +22,5 @@ public class ToDoUpdateRequestModel : IValidatableObject
         {
             yield return new ValidationResult("Field Id must be greater than 0", new[] { nameof(Id) });
         }
-        else if (string.IsNullOrWhiteSpace(Name))
-        {
-            yield return new ValidationResult("Field Name is null or empty", new[] { nameof(Name) });
-        }
     }
 }
