@@ -1,12 +1,26 @@
-﻿namespace ToDoList.Models.Requests;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class ToDoUpdateRequestModel
+namespace ToDoList.Models.Requests;
+
+public class ToDoUpdateRequestModel : IValidatableObject
 {
-    public int Id { get; set; }
+    [Required]
+    public int? Id { get; set; }
 
+    [Required]
+    [StringLength(128)]
     public string Name { get; set; }
 
     public string? Description { get; set; }
 
-    public bool IsDone { get; set; }
+    [Required]
+    public bool? IsDone { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (Id <= 0)
+        {
+            yield return new ValidationResult("Must be greater than 0", new[] { nameof(Id) });
+        }
+    }
 }

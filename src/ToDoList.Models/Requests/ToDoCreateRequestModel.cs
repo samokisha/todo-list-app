@@ -1,10 +1,15 @@
-﻿namespace ToDoList.Models.Requests;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ToDoList.Models.Requests;
 
 public class ToDoCreateRequestModel
 {
-    public string Name { get; set; }
+    [Required]
+    [StringLength(128)]
+    public string? Name { get; set; }
 
     public string? Description { get; set; }
 
-    public bool IsDone { get; set; }
+    [Required]
+    public bool? IsDone { get; set; }
 }
